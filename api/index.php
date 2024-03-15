@@ -11,7 +11,7 @@ $endpoint = end($uriSegments);
 $routes = ["users"];
 
 if (in_array($routeParent, $routes)) {
-    include_once __DIR__ . "routes/{$routeParent}.route.php";
+    include_once $_SERVER["DOCUMENT_ROOT"] . "/routes/{$routeParent}.route.php";
 } else {
     $response = [
         "statusCode" => 404,

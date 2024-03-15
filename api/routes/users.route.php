@@ -1,6 +1,6 @@
 <?php
 
-include_once __DIR__ . "functions/users.php";
+include_once $_SERVER["DOCUMENT_ROOT"] . "/functions/users.php";
 
 switch ($endpoint) {
     case "":
