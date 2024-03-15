@@ -1,5 +1,5 @@
 <?php
-include_once "configs/database.php";
+include_once __DIR__ . "configs/database.php";
 
 function getUsers()
 {
