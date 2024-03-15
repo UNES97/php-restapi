@@ -4,11 +4,6 @@ $requestUri = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
 $method = $_SERVER["REQUEST_METHOD"];
 
 $uriSegments = explode("/", rtrim($requestUri, "/"));
-$key = array_search("api", $uriSegments);
-if ($key !== false) {
-    unset($uriSegments[$key]);
-    $uriSegments = array_values($uriSegments);
-}
 $t = count($uriSegments);
 $routeParent = $uriSegments[$t - ($t - 1)];
 $endpoint = end($uriSegments);
