@@ -1,4 +1,5 @@
 <?php
+define("ROOT", $_SERVER["DOCUMENT_ROOT"] . "/api");
 
 $requestUri = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
 $method = $_SERVER["REQUEST_METHOD"];
@@ -11,7 +12,7 @@ $endpoint = end($uriSegments);
 $routes = ["users"];
 
 if (in_array($routeParent, $routes)) {
-    include_once $_SERVER["DOCUMENT_ROOT"] . "/routes/{$routeParent}.route.php";
+    include_once ROOT . "/routes/{$routeParent}.route.php";
 } else {
     $response = [
         "statusCode" => 404,

@@ -1,5 +1,5 @@
 <?php
-include_once $_SERVER["DOCUMENT_ROOT"] . "/configs/database.php";
+include_once ROOT . "/configs/database.php";
 
 function getUsers()
 {
