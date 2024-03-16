@@ -22,6 +22,11 @@ function getUsers()
             "statusCode" => 500,
             "message" => "Something went wrong {$e->getMessage()}",
         ];
+    } catch (Exception $f) {
+        return [
+            "statusCode" => 500,
+            "message" => "Something went wrong : {$f->getMessage()}",
+        ];
     }
 }
 
