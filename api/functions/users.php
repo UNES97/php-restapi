@@ -17,7 +17,7 @@ function getUsers()
             "statusCode" => 200,
             "data" => $data,
         ];
-    } catch (Exception $e) {
+    } catch (PDOException $e) {
         return [
             "statusCode" => 500,
             "message" => "Something went wrong {$e->getMessage()}",
@@ -41,7 +41,7 @@ function getUser()
             "statusCode" => 200,
             "data" => $data,
         ];
-    } catch (Exception $e) {
+    } catch (PDOException $e) {
         return [
             "statusCode" => 500,
             "message" => "Something went wrong : {$e->getMessage()}",
@@ -63,7 +63,7 @@ function countUsers()
             "statusCode" => 200,
             "data" => $data,
         ];
-    } catch (Exception $e) {
+    } catch (PDOException $e) {
         return [
             "statusCode" => 500,
             "message" => "Something went wrong : {$e->getMessage()}",
