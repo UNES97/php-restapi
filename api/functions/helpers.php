@@ -44,3 +44,21 @@ function isGET()
         exit();
     }
 }
+
+function parseEnvFile($filePath)
+{
+    $envData = [];
+    if (file_exists($filePath)) {
+        $lines = file($filePath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+        foreach ($lines as $line) {
+            if (
+                strpos(trim($line), "=") !== false &&
+                substr(trim($line), 0, 1) !== "#"
+            ) {
+                list($key, $value) = explode("=", $line, 2);
+                $envData[trim($key)] = trim($value);
+            }
+        }
+    }
+    return $envData;
+}
