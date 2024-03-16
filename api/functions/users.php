@@ -3,37 +3,70 @@ include_once ROOT . "/configs/database.php";
 
 function getUsers()
 {
-    $users = [
-        [
-            "name" => "John Doe",
-            "age" => 30,
-            "email" => "john@example.com",
-        ],
-        [
-            "name" => "Jane Smith",
-            "age" => 25,
-            "email" => "jane@example.com",
-        ],
-        [
-            "name" => "Michael Johnson",
-            "age" => 35,
-            "email" => "michael@example.com",
-        ],
-    ];
-    return $users;
+    $data = [];
+    try {
+        global $connection;
+        $query = "SELECT id, username, email, created_at FROM users";
+        $statement = $connection->prepare($query);
+        $result = $statement->execute();
+        while ($row = $result->fetchArray(SQLITE3_ASSOC)) {
+            $data[] = $row;
+        }
+        $result->finalize();
+        return [
+            "statusCode" => 200,
+            "data" => $data,
+        ];
+    } catch (Exception $e) {
+        return [
+            "statusCode" => 500,
+            "message" => "Something went wrong {$e->getMessage()}",
+        ];
+    }
 }
 
-function getUser($id)
+function getUser()
 {
-    $user = [
-        "name" => "Michael Johnson",
-        "age" => 35,
-        "email" => "michael@example.com",
-    ];
-    return $user;
+    try {
+        $id = $_GET["id"];
+        global $connection;
+        $query = $connection->prepare(
+            "SELECT  id, username, email, created_at FROM users WHERE id = :id"
+        );
+        $query->bindParam(":id", $id);
+        $result = $query->execute();
+        $data = $result->fetchArray(SQLITE3_ASSOC);
+        $result->finalize();
+        return [
+            "statusCode" => 200,
+            "data" => $data,
+        ];
+    } catch (Exception $e) {
+        return [
+            "statusCode" => 500,
+            "message" => "Something went wrong : {$e->getMessage()}",
+        ];
+    }
 }
 
 function countUsers()
 {
-    return 3;
+    try {
+        global $connection;
+        $query = $connection->prepare(
+            "SELECT  COUNT(id) AS totalUsers FROM users"
+        );
+        $result = $query->execute();
+        $data = $result->fetchArray(SQLITE3_ASSOC);
+        $result->finalize();
+        return [
+            "statusCode" => 200,
+            "data" => $data,
+        ];
+    } catch (Exception $e) {
+        return [
+            "statusCode" => 500,
+            "message" => "Something went wrong : {$e->getMessage()}",
+        ];
+    }
 }
