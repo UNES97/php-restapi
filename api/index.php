@@ -1,7 +1,6 @@
 <?php
 define("ROOT", $_SERVER["DOCUMENT_ROOT"] . "/api");
 
-$method = $_SERVER["REQUEST_METHOD"];
 $requestUri = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
 
 $uriSegments = explode("/", rtrim($requestUri, "/"));
