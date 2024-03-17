@@ -1,6 +1,6 @@
 <?php
 define("ROOT", $_SERVER["DOCUMENT_ROOT"] . "/api");
-include_once ROOT . "/functions/helpers.php";
+include_once ROOT . "/functions/general.php";
 $envFilePath = ROOT . "/.env";
 $envData = parseEnvFile($envFilePath);
 include_once ROOT . "/configs/database.php";
