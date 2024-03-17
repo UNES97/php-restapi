@@ -4,7 +4,7 @@ function signInUser()
 {
     global $connection;
     $username = $_POST["username"];
-    $password = $_POST['$password'];
+    $password = $_POST["password"];
 
     $statement = $connection->prepare(
         "SELECT id, username, password FROM users WHERE username = :username"
