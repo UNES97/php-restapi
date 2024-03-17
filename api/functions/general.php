@@ -183,27 +183,40 @@ function generateJWT($payload)
     return $jwtToken;
 }
 
-function verifyJWT($jwtToken)
+function verifyJWT()
 {
     global $envData;
     $secretKey = $envData["SECRET_KEY"];
     $secretKey = hash("sha256", $secretKey);
 
-    list($headerEncoded, $payloadEncoded, $signature) = explode(".", $jwtToken);
-    $header = json_decode(base64_decode($headerEncoded));
-    $payload = json_decode(base64_decode($payloadEncoded));
+    $headers = getallheaders();
+    if (isset($headers["X-ACCESS-TOKEN"])) {
+        $jwtToken = $headers["X-ACCESS-TOKEN"];
+        list($headerEncoded, $payloadEncoded, $signature) = explode(
+            ".",
+            $jwtToken
+        );
+        $header = json_decode(base64_decode($headerEncoded));
+        $payload = json_decode(base64_decode($payloadEncoded));
 
-    $expectedSignature = hash_hmac(
-        "sha256",
-        "$headerEncoded.$payloadEncoded",
-        $secretKey,
-        true
-    );
-    $expectedSignature = base64_encode($expectedSignature);
+        $expectedSignature = hash_hmac(
+            "sha256",
+            "$headerEncoded.$payloadEncoded",
+            $secretKey,
+            true
+        );
+        $expectedSignature = base64_encode($expectedSignature);
 
-    if ($signature === $expectedSignature) {
-        return $payload;
-    } else {
-        return false;
+        if ($signature === $expectedSignature) {
+            return true;
+        }
     }
+    echo json_encode(
+        [
+            "statusCode" => 401,
+            "message" => "Unauthorized",
+        ],
+        JSON_PRETTY_PRINT
+    );
+    exit();
 }

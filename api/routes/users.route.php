@@ -6,18 +6,22 @@ switch ($endpoint) {
     case "":
     case "users":
         isGET();
+        verifyJWT();
         $response = getUsers();
         break;
     case "user":
         isGET();
+        verifyJWT();
         $response = getUser();
         break;
     case "count":
         isGET();
+        verifyJWT();
         $response = countUsers();
         break;
     case "create":
         isPOST();
+        verifyJWT();
         $response = insertUser();
         break;
     default:
