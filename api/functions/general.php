@@ -26,10 +26,13 @@ function checkPayloadNotEmpty($payload)
 function isPOST()
 {
     if ($_SERVER["REQUEST_METHOD"] != "POST") {
-        echo json_encode([
-            "statusCode" => 405,
-            "message" => "Method not allowed",
-        ]);
+        echo json_encode(
+            [
+                "statusCode" => 405,
+                "message" => "Method not allowed",
+            ],
+            JSON_PRETTY_PRINT
+        );
         exit();
     }
 }
@@ -37,10 +40,13 @@ function isPOST()
 function isGET()
 {
     if ($_SERVER["REQUEST_METHOD"] != "GET") {
-        echo json_encode([
-            "statusCode" => 405,
-            "message" => "Method not allowed",
-        ]);
+        echo json_encode(
+            [
+                "statusCode" => 405,
+                "message" => "Method not allowed",
+            ],
+            JSON_PRETTY_PRINT
+        );
         exit();
     }
 }
@@ -90,10 +96,13 @@ function initCORS()
         if (!empty($referer) && in_array($referer, $allowed_domains)) {
             header("Access-Control-Allow-Origin: $referer");
         } else {
-            echo json_encode([
-                "statusCode" => 403,
-                "message" => "Access denied",
-            ]);
+            echo json_encode(
+                [
+                    "statusCode" => 403,
+                    "message" => "Access denied",
+                ],
+                JSON_PRETTY_PRINT
+            );
             exit();
         }
     }

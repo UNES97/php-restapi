@@ -3,7 +3,7 @@ define("ROOT", $_SERVER["DOCUMENT_ROOT"] . "/api");
 /* Load ENV file */
 $envFilePath = ROOT . "/.env";
 /* Define routes */
-$routes = ["users"];
+$routes = ["users", "auth"];
 /* Define functions files names & Load them */
 $functions = ["general"];
 
