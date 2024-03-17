@@ -1,6 +1,6 @@
 <?php
 
 $connection = new SQLite3(
-    "demo_api.db",
+    $envData["DB_NAME"],
     SQLITE3_OPEN_CREATE | SQLITE3_OPEN_READWRITE
 );

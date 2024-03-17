@@ -56,7 +56,15 @@ function parseEnvFile($filePath)
                 substr(trim($line), 0, 1) !== "#"
             ) {
                 list($key, $value) = explode("=", $line, 2);
-                $envData[trim($key)] = trim($value);
+                $key = trim($key);
+                $value = trim($value);
+                if (
+                    substr($value, 0, 1) === '"' &&
+                    substr($value, -1) === '"'
+                ) {
+                    $value = substr($value, 1, -1);
+                }
+                $envData[$key] = $value;
             }
         }
     }

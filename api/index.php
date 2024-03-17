@@ -1,5 +1,9 @@
 <?php
 define("ROOT", $_SERVER["DOCUMENT_ROOT"] . "/api");
+include_once ROOT . "/functions/helpers.php";
+$envFilePath = ROOT . "/.env";
+$envData = parseEnvFile($envFilePath);
+include_once ROOT . "/configs/database.php";
 
 $requestUri = parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
 

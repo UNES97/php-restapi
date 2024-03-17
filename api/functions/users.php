@@ -1,5 +1,4 @@
 <?php
-include_once ROOT . "/configs/database.php";
 
 function getUsers()
 {
