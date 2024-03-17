@@ -158,3 +158,43 @@ function decrypt($encryptedData)
         throw $e;
     }
 }
+
+function generateJWT($payload)
+{
+    global $envData;
+    $secretKey = $envData["SECRET_KEY"];
+    $secretKey = hash("sha256", $secretKey);
+
+    $header = base64_encode(json_encode(["typ" => "JWT", "alg" => "HS256"]));
+    $payload = base64_encode(json_encode($payload));
+    $signature = hash_hmac("sha256", "$header.$payload", $secretKey, true);
+    $signature = base64_encode($signature);
+    $jwtToken = "$header.$payload.$signature";
+
+    return $jwtToken;
+}
+
+function verifyJWT($jwtToken)
+{
+    global $envData;
+    $secretKey = $envData["SECRET_KEY"];
+    $secretKey = hash("sha256", $secretKey);
+
+    list($headerEncoded, $payloadEncoded, $signature) = explode(".", $jwtToken);
+    $header = json_decode(base64_decode($headerEncoded));
+    $payload = json_decode(base64_decode($payloadEncoded));
+
+    $expectedSignature = hash_hmac(
+        "sha256",
+        "$headerEncoded.$payloadEncoded",
+        $secretKey,
+        true
+    );
+    $expectedSignature = base64_encode($expectedSignature);
+
+    if ($signature === $expectedSignature) {
+        return $payload;
+    } else {
+        return false;
+    }
+}
