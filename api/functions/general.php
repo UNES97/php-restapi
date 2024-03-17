@@ -70,3 +70,35 @@ function parseEnvFile($filePath)
     }
     return $envData;
 }
+
+function initCORS()
+{
+    $envFilePath = ROOT . "/.env";
+    $envData = parseEnvFile($envFilePath);
+
+    if ($envData["ALLOWED_DOMAINS"] == "*") {
+        header("Access-Control-Allow-Origin: *");
+    } else {
+        /* Remove square brackets and split the string into an array & Trim */
+        $allowed_domains_string = trim($envData["ALLOWED_DOMAINS"], "[]");
+        $allowed_domains = explode(",", $allowed_domains_string);
+        $allowed_domains = array_map("trim", $allowed_domains);
+
+        /* Get the referring domain from the HTTP referer header */
+        $referer = isset($_SERVER["HTTP_REFERER"])
+            ? parse_url($_SERVER["HTTP_REFERER"], PHP_URL_HOST)
+            : "";
+
+        if (!empty($referer) && in_array($referer, $allowed_domains)) {
+            header("Access-Control-Allow-Origin: $referer");
+        } else {
+            echo json_encode([
+                "statusCode" => 403,
+                "message" => "Access denied",
+            ]);
+            exit();
+        }
+    }
+    header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+    header("Access-Control-Allow-Headers: Content-Type, Authorization");
+}

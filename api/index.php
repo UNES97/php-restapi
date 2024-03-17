@@ -1,5 +1,7 @@
 <?php
 define("ROOT", $_SERVER["DOCUMENT_ROOT"] . "/api");
+/* Load ENV file */
+$envFilePath = ROOT . "/.env";
 /* Define routes */
 $routes = ["users"];
 /* Define functions files names & Load them */
@@ -10,8 +12,13 @@ foreach ($functions as $f) {
 }
 
 /* Load ENV variables you can access using the variable $envData['Variable_name'] */
-$envFilePath = ROOT . "/.env";
 $envData = parseEnvFile($envFilePath);
+
+/*
+ * Handle CORS (Cross-Origin Resource Sharing) based on allowed domains from environment variable.
+ * If ALLOWED_DOMAINS is "*", allow requests from any domain. Otherwise, allow requests only from specified domains.
+ */
+initCORS();
 
 /* Load database */
 include_once ROOT . "/configs/database.php";
