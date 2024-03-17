@@ -1,7 +1,7 @@
 <?php
 
 include_once ROOT . "/controllers/users.php";
-
+/* Place all the middlewares above your function for example the isGET & verifyJWT */
 switch ($endpoint) {
     case "":
     case "users":
