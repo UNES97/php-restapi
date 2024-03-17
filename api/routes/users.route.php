@@ -1,6 +1,6 @@
 <?php
 
-include_once ROOT . "/functions/users.php";
+include_once ROOT . "/controllers/users.php";
 
 switch ($endpoint) {
     case "":
