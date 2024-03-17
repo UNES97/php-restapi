@@ -106,6 +106,7 @@ function encrypt($text)
     try {
         global $envData;
         $secretKey = $envData["SECRET_KEY"];
+        $secretKey = hash("sha256", $secretKey);
 
         $iv = openssl_random_pseudo_bytes(16);
         /* Encrypt the text using AES-256-CBC cipher */
@@ -134,6 +135,7 @@ function decrypt($encryptedData)
     try {
         global $envData;
         $secretKey = $envData["SECRET_KEY"];
+        $secretKey = hash("sha256", $secretKey);
 
         /* Convert iv from hex to binary */
         $iv = hex2bin($encryptedData["iv"]);
