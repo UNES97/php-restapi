@@ -2,7 +2,7 @@
 define("ROOT", $_SERVER["DOCUMENT_ROOT"] . "/api");
 /* Define routes */
 $routes = ["users"];
-/* Define functions files names */
+/* Define functions files names & Load them */
 $functions = ["general"];
 
 foreach ($functions as $f) {
