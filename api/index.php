@@ -1,4 +1,6 @@
 <?php
+ini_set("display_errors", 0);
+header("Content-Type: application/json");
 define("ROOT", $_SERVER["DOCUMENT_ROOT"] . "/api");
 /* Load ENV file */
 $envFilePath = ROOT . "/.env";

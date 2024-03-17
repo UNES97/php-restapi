@@ -99,22 +99,21 @@ function insertUser()
     $email = $_POST["email"];
     $password = $_POST["password"];
     try {
-        if (checkPayloadNotEmpty([$username, $email, $password])) {
+        if (!checkPayloadNotEmpty([$username, $email, $password])) {
             return [
                 "statusCode" => 205,
                 "message" => "Please check your payload",
             ];
         } else {
+            $dateCreated = date("Y-m-d H:i:s");
+            $password = password_hash($password, PASSWORD_DEFAULT);
             $query = $connection->prepare(
                 "INSERT INTO users (username, email, password, created_at) VALUES (:username, :email, :password, :created_at)"
             );
             $query->bindParam(":username", $username);
             $query->bindParam(":email", $email);
-            $query->bindParam(
-                ":password",
-                password_hash($password, PASSWORD_DEFAULT)
-            );
-            $query->bindParam(":created_at", date("Y-m-d H:i:s"));
+            $query->bindParam(":password", $password);
+            $query->bindParam(":created_at", $dateCreated);
             if ($query->execute()) {
                 return [
                     "statusCode" => 200,
