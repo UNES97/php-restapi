@@ -102,3 +102,61 @@ function initCORS()
     header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
     header("Access-Control-Allow-Headers: Content-Type, Authorization");
 }
+
+function encrypt($text)
+{
+    try {
+        $envFilePath = ROOT . "/.env";
+        $envData = parseEnvFile($envFilePath);
+        $secretKey = $envData["SECRET_KEY"];
+
+        $iv = openssl_random_pseudo_bytes(16);
+        /* Encrypt the text using AES-256-CBC cipher */
+        $encrypted = openssl_encrypt(
+            $text,
+            "aes-256-cbc",
+            hex2bin($secretKey),
+            OPENSSL_RAW_DATA,
+            $iv
+        );
+        if ($encrypted == false) {
+            throw new Exception("Encryption error");
+        }
+        return [
+            "iv" => bin2hex($iv),
+            "encryptedText" => bin2hex($encrypted),
+        ];
+    } catch (Exception $e) {
+        error_log("Encryption error: " . $e->getMessage());
+        throw $e;
+    }
+}
+
+function decrypt($encryptedData)
+{
+    try {
+        $envFilePath = ROOT . "/.env";
+        $envData = parseEnvFile($envFilePath);
+        $secretKey = $envData["SECRET_KEY"];
+
+        /* Convert iv from hex to binary */
+        $iv = hex2bin($encryptedData["iv"]);
+
+        /* Decrypt the encrypted text using AES-256-CBC cipher */
+        $decrypted = openssl_decrypt(
+            hex2bin($encryptedData["encryptedText"]),
+            "aes-256-cbc",
+            hex2bin($secretKey),
+            OPENSSL_RAW_DATA,
+            $iv
+        );
+
+        if ($decrypted == false) {
+            throw new Exception("Decryption error");
+        }
+        return $decrypted;
+    } catch (Exception $e) {
+        error_log("Decryption error: " . $e->getMessage());
+        throw $e;
+    }
+}
