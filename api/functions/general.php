@@ -73,9 +73,7 @@ function parseEnvFile($filePath)
 
 function initCORS()
 {
-    $envFilePath = ROOT . "/.env";
-    $envData = parseEnvFile($envFilePath);
-
+    global $envData;
     if ($envData["ALLOWED_DOMAINS"] == "*") {
         header("Access-Control-Allow-Origin: *");
     } else {
@@ -106,8 +104,7 @@ function initCORS()
 function encrypt($text)
 {
     try {
-        $envFilePath = ROOT . "/.env";
-        $envData = parseEnvFile($envFilePath);
+        global $envData;
         $secretKey = $envData["SECRET_KEY"];
 
         $iv = openssl_random_pseudo_bytes(16);
@@ -135,8 +132,7 @@ function encrypt($text)
 function decrypt($encryptedData)
 {
     try {
-        $envFilePath = ROOT . "/.env";
-        $envData = parseEnvFile($envFilePath);
+        global $envData;
         $secretKey = $envData["SECRET_KEY"];
 
         /* Convert iv from hex to binary */
