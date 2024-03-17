@@ -1,5 +1,6 @@
 <?php
 
+/* Get users */
 function getUsers()
 {
     $data = [];
@@ -29,6 +30,7 @@ function getUsers()
     }
 }
 
+/* Get user by ID */
 function getUser()
 {
     try {
@@ -65,6 +67,7 @@ function getUser()
     }
 }
 
+/* Get users count */
 function countUsers()
 {
     try {
@@ -92,6 +95,7 @@ function countUsers()
     }
 }
 
+/* Create a user */
 function insertUser()
 {
     global $connection;
