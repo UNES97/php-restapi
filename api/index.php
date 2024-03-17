@@ -20,11 +20,6 @@ $envData = parseEnvFile($envFilePath);
  */
 initCORS();
 
-$x = encrypt("hello");
-$y = decrypt($x);
-var_dump($y);
-exit();
-
 /* Load database */
 include_once ROOT . "/configs/database.php";
 
